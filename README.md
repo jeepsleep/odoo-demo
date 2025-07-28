@@ -8,15 +8,13 @@
 
 1. [Arquitectura](#arquitectura)
 2. [Requisitos previos](#requisitos-previos)
-3. [Variables de entorno](#variables-de-entorno)
-4. [Primer uso](#primer-uso)
-5. [Estructura del proyecto](#estructura-del-proyecto)
-6. [Comandos de uso frecuente](#comandos-de-uso-frecuente)
-7. [Flujo de trabajo para desarrollo](#flujo-de-trabajo-para-desarrollo)
-8. [Backup y restore](#backup-y-restore)
-9. [Actualización de Odoo o módulos](#actualización-de-odoo-o-módulos)
-10. [Solución de problemas](#solución-de-problemas)
-11. [Licencia](#licencia)
+3. [Primer uso](#primer-uso)
+4. [Estructura del proyecto](#estructura-del-proyecto)
+5. [Comandos de uso frecuente](#comandos-de-uso-frecuente)
+6. [Flujo de trabajo para desarrollo](#flujo-de-trabajo-para-desarrollo)
+7. [Backup y restore](#backup-y-restore)
+8. [Actualización de Odoo o módulos](#actualización-de-odoo-o-módulos)
+9. [Solución de problemas](#solución-de-problemas)
 
 ---
 
@@ -77,7 +75,6 @@ Navega a http://localhost:8069 – usuario/contraseña: los que crees en el asis
 ├── docker-compose.yml  # Orquestación de servicios
 ├── .env.example        # Plantilla de variables de entorno
 ├── README.md           # Este documento
-└── backup/             # (opcional) dumps de la BD
 ```
 
 ---
@@ -102,22 +99,6 @@ Navega a http://localhost:8069 – usuario/contraseña: los que crees en el asis
 
 ---
 
-## Backup y restore
-
-### Backup
-
-```bash
-# Dump completo
-$ docker compose exec db pg_dump -U "$POSTGRES_USER" "$POSTGRES_DB" > backup/odoo_$(date +%Y%m%d).sql
-```
-
-### Restore
-
-```bash
-$ cat backup/archivo.sql | docker compose exec -T db psql -U "$POSTGRES_USER" "$POSTGRES_DB"
-```
-
----
 
 ## Actualización de Odoo o módulos
 
@@ -141,10 +122,5 @@ $ cat backup/archivo.sql | docker compose exec -T db psql -U "$POSTGRES_USER" "$
 
 ---
 
-## Licencia
-
-Este proyecto se distribuye bajo la licencia MIT. Consulta el archivo [LICENSE](LICENSE) para más detalles.
-
----
 
 ¡Listo! Con esto deberías tener un entorno Odoo totalmente funcional y reproducible.
