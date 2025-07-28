@@ -1,19 +1,11 @@
-FROM python:3.11-slim
+FROM odoo:18
 
-WORKDIR /app
+USER root
+RUN apt-get update && apt-get install -y git
+RUN git clone https://github.com/yezyilomo/odoo-rest-api /mnt/extra-addons/odoo-rest-api
+RUN chown -R odoo:odoo /mnt/extra-addons
+RUN pip install --break-system-packages -r /mnt/extra-addons/odoo-rest-api/requirements.txt --no-cache-dir
+RUN mkdir -p /var/lib/odoo/.local/share/Odoo/sessions \
+    && chown -R odoo:odoo /var/lib/odoo/.local
 
-# Install dependencies
-COPY src/pyproject.toml ./
-RUN pip install --no-cache-dir tomli && \
-    python -c "import tomli; deps = tomli.load(open('pyproject.toml', 'rb'))['project']['dependencies']; print('\n'.join(deps))" > requirements.txt && \
-    pip install --no-cache-dir -r requirements.txt
-
-# Copy application code
-COPY src/ .
-
-ENV PYTHONUNBUFFERED=1
-ENV PYTHONPATH=/app
-
-EXPOSE 3000
-
-CMD ["python", "server.py"]
+USER odoo
