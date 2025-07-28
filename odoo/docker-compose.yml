@@ -1,0 +1,30 @@
+services:
+  db:
+    image: postgres:15
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    volumes:
+      - odoo-db-data:/var/lib/postgresql/data
+
+  odoo:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8069:8069"
+    environment:
+      - DB_HOST=db
+      - DB_PORT=5432
+      - DB_USER=${POSTGRES_USER}
+      - DB_PASSWORD=${POSTGRES_PASSWORD}
+      - ADMIN_PASSWORD=${ODOO_ADMIN_PASSWORD}
+      - ADDONS_PATH=/usr/lib/python3/dist-packages/odoo/addons,/mnt/extra-addons
+    volumes:
+      - ./addons:/mnt/extra-addons
+    depends_on:
+      - db
+
+volumes:
+  odoo-db-data:
